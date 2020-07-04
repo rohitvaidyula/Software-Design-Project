@@ -1,0 +1,224 @@
+import React, { Component } from "react";
+import "./App.css";
+
+const formValid = (formErrors) => {
+  let valid = true;
+
+  Object.values(formErrors).forEach((val) => {
+    val.length > 0 && (valid = false);
+  });
+
+  return valid;
+};
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      firstName: null,
+      lastName: null,
+      address1: null,
+      address2: null,
+      city: null,
+      state: null,
+      zipCode: null,
+      formErrors: {
+        firstName: "",
+        lastName: "",
+        address1: "",
+        address2: "",
+        city: "",
+        state: "",
+        zipCode: "",
+      },
+    };
+  }
+
+  handleSubmit = (e) => {
+    e.preventDevault();
+
+    if (formValid(this.state.formErrors)) {
+      console.log("Submitting");
+    } else {
+      console.error("FORM INVALID -DISPLAY ERROR MESSAGE");
+    }
+  };
+
+  handleChange = (e) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+    let formErrors = this.state.formErrors;
+
+    switch (name) {
+      case "firstName":
+        formErrors.firstName = value.length > 50 ? "Maximum 50 characters" : "";
+        break;
+      case "lastName":
+        formErrors.lastName = value.length > 50 ? "Maximum 50 characters" : "";
+        break;
+      case "address1":
+        formErrors.address1 =
+          value.length > 100 ? "Maximum 100 characters" : "";
+        break;
+      case "address2":
+        formErrors.address2 =
+          value.length > 100 ? "minimum 3 characters required" : "";
+        break;
+      case "city":
+        formErrors.city = value.length > 100 ? "Maximum 50 characters" : "";
+        break;
+      case "state":
+        formErrors.state =
+          value.length < 3 ? "minimum 3 characters required" : "";
+        break;
+      case "zipCode":
+        formErrors.zipCode =
+          value.length > 5 ? "minimum 5 characters required" : "";
+        break;
+      default:
+        break;
+    }
+
+    this.setState({ formErrors, [name]: value }, () => console.log(this.state));
+  };
+
+  render() {
+    const { formErrors } = this.state;
+
+    return (
+      <div className="wrapper">
+        <div className="form.wrapper">
+          <h1> Profile</h1>
+          <form onSubmit={this.handleSubmit} noValidate>
+            <div className="firstName">
+              <label htmlFor="firstName">First Name</label>
+              <input
+                className=""
+                placeholder="First Name"
+                type="text"
+                name="firstName"
+                noValidate
+                onChange={this.handleChange}
+              />
+              {formErrors.firstName.length > 50 && (
+                <span className="errorMessage">{formErrors.firstName}</span>
+              )}
+            </div>
+            <div className="lastName">
+              <label htmlFor="lastName">Last Name</label>
+              <input
+                className=""
+                placeholder="Last Name"
+                type="text"
+                name="lastName"
+                noValidate
+                onChange={this.handleChange}
+              />
+            </div>{" "}
+            <div className="address1">
+              <label htmlFor="address1">Address1</label>
+              <input
+                className=""
+                placeholder="Address1"
+                type="text"
+                name="address1"
+                noValidate
+                onChange={this.handleChange}
+              />
+            </div>{" "}
+            <div className="address2">
+              <label htmlFor="address2">Address2</label>
+              <input
+                className=""
+                placeholder="Address2"
+                type="text"
+                name="address2"
+                noValidate
+                onChange={this.handleChange}
+              />
+            </div>{" "}
+            <div className="city">
+              <label htmlFor="city">City</label>
+              <input
+                className=""
+                placeholder="City"
+                type="text"
+                name="city"
+                noValidate
+                onChange={this.handleChange}
+              />
+
+              <select>
+                <option selected value="Alabama - AL">
+                  Alabama - AL
+                </option>
+                <option value="Alaska - AK">Alaska - AK</option>
+                <option value="Arizona - AZ">Arizona - AZ</option>
+                <option value="Arkansas - AR">Arkansas - AR</option>
+                <option value="California - CA">California - CA</option>
+                <option value="Colorado - CO">Colorado - CO</option>
+                <option value="Connecticut - CT">Connecticut - CT</option>
+                <option value="Delaware - DE">Delaware - DE</option>
+                <option value="Florida - FL">Florida - FL</option>
+                <option value="Georgia - GA">Georgia - GA</option>
+                <option value="Hawaii - HI">Hawaii - HI</option>
+                <option value="Idaho - ID">Idaho - ID</option>
+                <option value="Illinois - IL">Illinois - IL</option>
+                <option value="Indiana - IN">Indiana - IN</option>
+                <option value="Iowa - IA">Iowa - IA</option>
+                <option value="Kansas - KS">Kansas - KS</option>
+                <option value="Kentucky - KY">Kentucky - KY</option>
+                <option value="Louisiana - LA">Louisiana - LA</option>
+                <option value="Maine - ME">Maine - ME</option>
+                <option value="Maryland - MD">Maryland - MD</option>
+                <option value="Massachusetts - MA">Massachusetts - MA</option>
+                <option value="Michigan - MI">Michigan - MI</option>
+                <option value="Minnesota - MN">Minnesota - MN</option>
+                <option value="Mississippi - MS">Mississippi - MS</option>
+                <option value="Missouri - MO">Missouri - MO</option>
+                <option value="Montana - MT">Montana - MT</option>
+                <option value="Nebraska - NE">Nebraska - NE</option>
+                <option value="Nevada - NV">Nevada - NV</option>
+                <option value="New Hampshire - NH">New Hampshire - NH</option>
+                <option value="New Jersey - NJ">New Jersey - NJ</option>
+                <option value="New Mexico - NM">New Mexico - NM</option>
+                <option value="New York - NY">New York - NY</option>
+                <option value="North Carolina - NC">North Carolina - NC</option>
+                <option value="North Dakota - ND">North Dakota - ND</option>
+                <option value="Ohio - OH">Ohio - OH</option>
+                <option value="Oklahoma - OK">Oklahoma - OK</option>
+                <option value="Oregon - OR">Oregon - OR</option>
+                <option value="Pennsylvania - PA">Pennsylvania - PA</option>
+                <option value="Rhode Island - RI">Rhode Island - RI</option>
+                <option value="South Carolina - SC">South Carolina - SC</option>
+                <option value="South Dakota - SD">South Dakota - SD</option>
+                <option value="Tennessee - TN">Tennessee - TN</option>
+                <option value="Texas - TX">Texas - TX</option>
+                <option value="Utah - UT">Utah - UT</option>
+                <option value="Vermont - VT">Vermont - VT</option>
+                <option value="Virginia - VA">Virginia - VA</option>
+                <option value="Washington - WA">Washington - WA</option>
+                <option value="West Virginia - WV">West Virginia - WV</option>
+                <option value="Wisconsin - WI">Wisconsin - WI</option>
+                <option value="Wyoming - WY">Wyoming - WY</option>
+              </select>
+            </div>{" "}
+            <div className="zipCode">
+              <label htmlFor="zipCode">Zip Code</label>
+              <input
+                className=""
+                placeholder="Zip Code"
+                type="text"
+                name="zipCode"
+                noValidate
+                onChange={this.handleChange}
+              />
+            </div>
+          </form>
+        </div>
+      </div>
+    );
+  }
+}
+export default App;
