@@ -1,0 +1,32 @@
+{
+  "name": "soft",
+  "version": "1.0.0",
+  "description": "Project for COSC 4353",
+  "main": "index.js",
+  "dependencies": {
+    "concurrently": "^5.2.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.10.4",
+    "@babel/core": "^7.10.4",
+    "@babel/node": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
+    "nodemon": "^2.0.4"
+  },
+  "scripts": {
+    "back": "nodemon --watch backend --exec babel-node backend/server.js",
+    "front": "cd reac & npm start",
+    "dev": "concurrently \"npm run back\" \"npm run front\" "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rohitvaidyula/Software-Design-Project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rohitvaidyula/Software-Design-Project/issues"
+  },
+  "homepage": "https://github.com/rohitvaidyula/Software-Design-Project#readme"
+}

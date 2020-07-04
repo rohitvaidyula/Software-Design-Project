@@ -1,0 +1,20 @@
+[
+    {
+        "clientID": 123,
+        "date": "1-1-2020",
+        "finalPrice": 875243,
+        "quoteID": 321
+    },
+    {
+        "clientID": 123,
+        "date": "2-2-2020",
+        "finalPrice": 798453,
+        "quoteID": 543
+    },
+    {
+        "clientID": 123,
+        "date": "3-3-2020",
+        "finalPrice": 472965,
+        "quoteID": 876
+    }
+]
