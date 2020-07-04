@@ -6,7 +6,7 @@ import {BrowserRouter,Route,Switch} from 'react-router-dom';
 import ProfilePage from './Profile page/Profile page';
 import FuelQuoteHistory from './Fuel Quote Hist/histPage';
 
-//buttons can be added a <Link to="FuelQuoteHist"><button><button></Link>
+//buttons can be added as <Link to="FuelQuoteHist"><button><button></Link>
 
 const rootElement = document.getElementById('root');
 ReactDOM.render(
