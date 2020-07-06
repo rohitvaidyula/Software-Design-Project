@@ -1,163 +1,175 @@
-import React, { Component } from 'react'
-
+import React, { Component } from "react";
+import { Redirect } from "react-router-dom"
 import DatePicker from 'react-datepicker';
- 
-import "react-datepicker/dist/react-datepicker.css";
-import 'bootstrap/dist/css/bootstrap.min.css';
 
+import axios from 'axios';
 
+import "react-datepicker/dist/react-datepicker.css"
+import "bootstrap/dist/css/bootstrap.min.css"
 
 class Form extends Component {
-
 	constructor(props) {
-
 		super(props)
-
-
-
 		this.state = {
 
-			
-			total_price: '',
+			firstname: '',
+			lastname: '',
+			Address1: '',
+			Address2: '',
+			City: '',
+			St: '',
+			Zipcode: '',
+			del_Date: '',
 
-            suggested_price: '2.05',
+			suggested_price: '2.05',
+			Gallon: '',
+			FinalPrice: ''
 
-			fuelquote: '',
-
-			del_Date: ''
-            
-
-		}
-		
-
-		this.handleDateChange = this.handleDateChange.bind(this);
-	
-
+		};
 
 	}
 
+	componentDidMount() {
+		fetch("http://localhost:3001/client_info")
+			.then(response => response.json())
+			.then(responseJson => {
+				this.setState({ firstname: responseJson.first_name });
+				this.setState({ lastname: responseJson.last_name });
+				this.setState({ Address1: responseJson.address });
+				this.setState({ St: responseJson.state });
+				this.setState({ Zipcode: responseJson.zip });
+			});
+	}
 
-	handleDateChange(date) {
+	Date_onChange = del_Date => this.setState({ del_Date })
+
+	OnFinalPriceChange = event => {
 		this.setState({
-		  del_Date: date
-		})
-	  }
+			FinalPrice: event.target.value,
 
+		})
+	}
 
 	handleFuelChange = event => {
 
 		this.setState({
-
-			fuelquote: event.target.value,
-
-			
-
+			Gallon: event.target.value,
 		})
 
 	}
 
 
 	handleSubmit = event => {
-
-		if(isNaN(this.state.fuelquote) || this.state.fuelquote < 0){
+		event.preventDefault()
+		if (isNaN(this.state.Gallon) || this.state.Gallon < 0) {
 			alert('Error! Please input valid fuel quantity.')
 		}
-		else{
-
+		else {
 			console.log(this.state)
 			alert('Submission Successful!')
+
+			const client = {
+				Gallon: this.state.Gallon,
+				del_Date: this.state.del_Date
+			}
+
+			axios.post('http://localhost:3001/client_info/form_submit',client)
+				.then(res => {
+					console.log(res);
+					console.log(res.data);
+				})
+			
+			//console.log(this.state)
+			//alert('Submission Successful!')
+			return <Redirect to = "http://localhost:3001/client_info/form_submit" />
+
 		}
 
+
+
 		
-		
-		event.preventDefault()
 
 	}
+
 
 
 
 	render() {
-
-		const {  suggested_price, fuelquote } = this.state
-
+		const { suggested_price, Gallon } = this.state
 		return (
-
-			<form onSubmit={this.handleSubmit}>
-
-
-                <div>
-					<label>Name:  </label>
-                	<input type="text" value="Saadman Iqbal"></input>
-					
-                </div>
-				
-				<div>
-					<label>Address:  </label>
-                	<input type="text" value="1234 Cullen Blvd Houston TX 77204" style={{width: "370px"}}></input>
-                </div>
-
-				<div>
-
-					
-				<label>Gallons:  </label>
-					<input
-						
-			
-						type="value"
-						
-
-						
-                        
-                        placeholder = "Gallons Requested"
-
-						value={fuelquote}
-
-						onChange={this.handleFuelChange}
-
-						required
-
-					/>
-
-				</div>
-
-				<div>
-					<label>Suggested Price/Gallon in dollars:  </label>
-                	<input type="text" value={suggested_price}></input>
-                </div>
+			<div>
+				<h5>{this.state.firstname}</h5>
 
 
+				<form onSubmit={this.handleSubmit}>
+					<div>
+						<label>Name:  </label>
+						<input type="text" value={this.state.firstname + " " + this.state.lastname} ></input>
+
+					</div>
+
+					<div>
+						<label>Address:  </label>
+						<input type="text" value={this.state.Address1 + " " + this.state.St + " " + this.state.Zipcode} style={{ width: "370px" }}></input>
+					</div>
+
+					<div>
 
 
-				<div>
-				<label>Delivery Date: </label>
-				<DatePicker
-              selected={ this.state.del_Date }
-			  onChange={ this.handleDateChange }
-			  placeholder = "Enter Date"
-			  name="del_Date"
-			  
-			  dateFormat="MM/dd/yyyy"
+						<label>Gallons:  </label>
+						<input
 
-			  required
-          />
 
-				</div>
+							type="value"
 
-                <div>
-					<label>Amount Due in dollars:  </label>
-                	<input type="text" value={fuelquote*2.05}></input>
-                </div>
+							placeholder="Gallons Requested"
 
-				<button type="submit">Submit</button>
+							value={Gallon}
 
-			</form>
+							onChange={this.handleFuelChange}
 
+							required
+
+						/>
+
+					</div>
+
+					<div>
+						<label>Suggested Price/Gallon in dollars:  </label>
+						<input type="text" value={suggested_price}></input>
+					</div>
+
+
+					<div>
+						<label>Delivery Date: </label>
+						<DatePicker
+							selected={this.state.del_Date}
+							onChange={this.Date_onChange}
+							placeholder="Enter Date"
+							name="del_Date"
+
+							dateFormat="MM/dd/yyyy"
+							value={this.state.del_Date}
+
+							required
+						/>
+
+					</div>
+
+					<div>
+						<label>Amount Due in dollars:  </label>
+						<input type="text" value={Gallon * 2.05}
+							onChange={this.onFinalPriceChange}></input>
+
+					</div>
+
+					<button type="submit">Submit</button>
+				</form>
+			</div>
 		)
-
 	}
 
+
 }
-
-
 
 export default Form
