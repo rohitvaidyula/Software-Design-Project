@@ -24,6 +24,10 @@
   width: 25%;
 }
 
+.username{
+  width: 25%;
+}
+
 .labels{
   display: flex;
 }
