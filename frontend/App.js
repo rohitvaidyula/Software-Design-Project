@@ -1,31 +1,43 @@
-import React from 'react';
-import './App.css';
-import LoginForm from './components/LoginForm';
-import RegisterForm from './components/RegisterForm';
-import Modali, {useModali} from "modali";
+import React, { Component } from "react";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-const App = () => {
+import CreateUser from "./components/create-user.component";
+import EditUser from "./components/edit-user.components";
+import UserList from "./components/user-list.components";
 
-  const [RegisterModal, toggleRegisterModal] = useModali({
-    animated: true,
-  });
-  
-  return (
-    <div className="App">
-      <h1>Software Design Project</h1>
-      <h2>Please login or sign-up</h2>
-      <LoginForm />
-      <p className = "text-center">Are you new? Sign up here</p>
-      <button
-      onClick = {toggleRegisterModal}
-      type = "button"
-      className = "btn-sm btn-dark btn-block button">Register</button>
-      <Modali.Modal {...RegisterModal}>
-        <RegisterForm />
-      </Modali.Modal>
-    </div>
-    
-  );
+class App extends Component {
+  render() {
+    return (
+      <Router>
+        <div className="container">
+          <nav className="navebar navbar-expand-lg navbar-light bg-light">
+            <Link to="/" className="navbar-brand">
+              Fuel quote App
+            </Link>
+            <div className=" navbar-collapse">
+              <ul className="navbar-nav mr-auto">
+                <li className="navbar-item">
+                  <Link to="/" className="nav-link">
+                    Users
+                  </Link>
+                </li>
+                <li className="navbar-item">
+                  <Link to="/create" className="nav-link">
+                    CreateUser
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </nav>
+
+          <Route path="/" exact component={UserList} />
+          <Route path="/edit/:id" component={EditUser} />
+          <Route path="/create" component={CreateUser} />
+        </div>
+      </Router>
+    );
+  }
 }
 
 export default App;
